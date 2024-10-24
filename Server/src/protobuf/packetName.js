@@ -1,5 +1,5 @@
 // 편하기 매핑하기 위해 사용
-export const packetName = {
+export const packetNames = {
   common: {
     Packet: 'common.Packet',
   },
