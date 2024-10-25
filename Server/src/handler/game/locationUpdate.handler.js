@@ -25,7 +25,7 @@ const locationUpdateHandler = async ({ socket, userId, payload }) => {
     // 유저의 위치 정보 업데이트
     user.updatePosition(x, y);
     // 같은 게임에 존재하는 모든 유저의 위치 정보 불러오기
-    const locationData = gameSession.getAllLocation();
+    const locationData = gameSession.getOtherLocation(user.id);
     // 위치 정보를 담은 패킷 생성
     const locationPacket = createLocationPacket(locationData);
 
