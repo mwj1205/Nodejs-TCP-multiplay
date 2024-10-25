@@ -20,6 +20,14 @@ class User {
   setLatency(latency) {
     this.latency = latency < 0 ? 0 : latency;
   }
+
+  setGameId(id) {
+    this.gameId = id;
+  }
+
+  leaveGame() {
+    this.gameId = null;
+  }
 }
 
 export default User;

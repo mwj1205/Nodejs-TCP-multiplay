@@ -27,3 +27,9 @@ export const getGameSession = (id) => {
 export const getAllGameSession = () => {
   return GameSessions;
 };
+
+// 접속 가능한 게임 세션 검색
+export const findAvailableGame = () => {
+  const gameSessions = getAllGameSession();
+  return gameSessions.find((game) => game.users.length < GAME_MAX_PLAYER);
+};
