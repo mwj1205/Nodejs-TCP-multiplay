@@ -23,7 +23,7 @@ export const onData = (socket) => async (data) => {
         switch (packetType) {
           case PACKET_TYPE.NORMAL: {
             // 패킷 파서
-            packetParser(packet);
+            const { handlerId, userId, payload } = packetParser(packet);
           }
         }
       } catch (err) {
