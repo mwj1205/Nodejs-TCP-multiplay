@@ -1,4 +1,5 @@
 import { PACKET_TYPE, PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
+import { handlerError } from '../utils/error/errorHandlers.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 
 export const onData = (socket) => async (data) => {
@@ -23,11 +24,11 @@ export const onData = (socket) => async (data) => {
         switch (packetType) {
           case PACKET_TYPE.NORMAL: {
             // 패킷 파서
-            packetParser(packet);
+            const { handlerId, userId, payload } = packetParser(packet);
           }
         }
       } catch (err) {
-        console.error(err);
+        handlerError(socket, err);
       }
     } else {
       break;
