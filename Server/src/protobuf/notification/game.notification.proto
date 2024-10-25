@@ -5,7 +5,7 @@ package gameNotification;
 message LocationUpdate {
     repeated UserLocation users = 1;
 
-    message userLocation {
+    message UserLocation {
         string id = 1;
         uint32 playerId = 2;
         float x = 3;
