@@ -1,5 +1,5 @@
 import Game from '../classes/models/game.class.js';
-import { FIRST_GAME_SESSION_ID } from '../constants/env.js';
+import { GAME_FIRST_SESSION_ID, GAME_MAX_PLAYER } from '../constants/env.js';
 import { GameSessions } from './sessions.js';
 
 // 게임 세션 추가
@@ -11,7 +11,7 @@ export const addGameSession = (id) => {
 
 // 게임 세션 삭제
 export const removeGameSession = (id) => {
-  if (id === FIRST_GAME_SESSION_ID) return;
+  if (id === GAME_FIRST_SESSION_ID) return;
   const index = GameSessions.findIndex((game) => game.id === id);
   if (index !== -1) {
     return GameSessions.splice(index, 1)[0];
