@@ -25,3 +25,7 @@ export const getUserById = (id) => {
 export const getUserBySocket = (socket) => {
   return UserSessions.find((user) => user.socket === socket);
 };
+
+export const getAllUsersId = () => {
+  return UserSessions.map((user) => user.id);
+};

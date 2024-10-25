@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
 import { addGameSession, findAvailableGame } from '../../session/game.session.js';
-import { addUser } from '../../session/user.session.js';
+import { addUser, getAllUsersId } from '../../session/user.session.js';
 import { handlerError } from '../../utils/error/errorHandlers.js';
 import { CreateResponse } from '../../utils/response/createResponse.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
@@ -36,12 +36,13 @@ const initialHandler = async ({ socket, userId, payload }) => {
     }
 
     console.log(`enter game: ID ${gameSession.id}`);
+    console.log(`Users: ${getAllUsersId()}`);
 
     // response 생성, 전송
     const initialResponse = CreateResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId, gameId },
+      { userId, gameId: gameSession.id },
       deviceId,
     );
 
