@@ -1,3 +1,4 @@
+import User from '../classes/models/user.class.js';
 import { UserSessions } from './sessions.js';
 
 // 유저 세션 추가

@@ -21,3 +21,5 @@ class User {
     this.latency = latency < 0 ? 0 : latency;
   }
 }
+
+export default User;

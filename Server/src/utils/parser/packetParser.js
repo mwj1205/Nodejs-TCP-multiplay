@@ -4,7 +4,7 @@ import { getProtoMessages } from '../../init/loadProto.js';
 import CustomError from '../error/customError.js';
 import { ErrorCodes } from '../error/errorCodes.js';
 
-export const packetParser = (packet) => {
+export const packetParser = (data) => {
   const protoMessages = getProtoMessages();
 
   // common 패킷 디코딩
