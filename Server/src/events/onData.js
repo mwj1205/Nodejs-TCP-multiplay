@@ -1,4 +1,5 @@
 import { PACKET_TYPE, PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
+import { getHandlerById } from '../handler/index.js';
 import { handlerError } from '../utils/error/errorHandlers.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 
@@ -25,6 +26,10 @@ export const onData = (socket) => async (data) => {
           case PACKET_TYPE.NORMAL: {
             // 패킷 파서
             const { handlerId, userId, payload } = packetParser(packet);
+
+            // handlerId에 맞는 핸들러 호출
+            const handler = getHandlerById(handlerId);
+            await handler({ socket, userId, payload });
           }
         }
       } catch (err) {
