@@ -1,4 +1,5 @@
 import { PACKET_TYPE, PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
+import { handlerError } from '../utils/error/errorHandlers.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 
 export const onData = (socket) => async (data) => {
@@ -27,7 +28,7 @@ export const onData = (socket) => async (data) => {
           }
         }
       } catch (err) {
-        console.error(err);
+        handlerError(socket, err);
       }
     } else {
       break;
