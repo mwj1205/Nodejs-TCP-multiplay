@@ -29,6 +29,15 @@ class Game {
     user.leaveGame();
     this.users = this.users.filter((user) => user.id !== userId);
   }
+
+  // 게임 내의 모든 유저의 위치 정보
+  getAllLocation() {
+    const locationData = this.users.map((user) => {
+      const { x, y } = user.getPosition();
+      return { id: user.id, playerId: user.playerId, x, y };
+    });
+    return locationData;
+  }
 }
 
 export default Game;
