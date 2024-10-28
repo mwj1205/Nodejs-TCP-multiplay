@@ -1,9 +1,6 @@
 export const GAME_DB_SQL_QUERIES = {
   GET_GAME_POSITION: `
-  SELECT 
-    x,
-    y,
-    end_time
+  SELECT x, y
   FROM user_coordinate
   WHERE device_id = ?
   LIMIT 1
