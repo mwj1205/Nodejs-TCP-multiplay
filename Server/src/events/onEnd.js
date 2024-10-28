@@ -1,8 +1,9 @@
+import { upsertGamePosition } from '../db/game/game.db.js';
 import { getGameSession } from '../session/game.session.js';
 import { getUserBySocket, removeUser } from '../session/user.session.js';
 import { handlerError } from '../utils/error/errorHandlers.js';
 
-export const onEnd = (socket) => () => {
+export const onEnd = (socket) => async () => {
   console.log('client disconnected');
 
   try {
@@ -16,6 +17,8 @@ export const onEnd = (socket) => () => {
         }
       }
     }
+
+    await upsertGamePosition(user.id, user.x, user.y);
 
     removeUser(socket);
   } catch (err) {

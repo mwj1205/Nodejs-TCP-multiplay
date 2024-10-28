@@ -4,12 +4,12 @@ export const GAME_DB_SQL_QUERIES = {
     x,
     y,
     end_time
-  FROM game_position
+  FROM user_coordinate
   WHERE device_id = ?
   LIMIT 1
 `,
   UPSERT_GAME_POSITION: `
-    INSERT INTO game_position (
+    INSERT INTO user_coordinate (
       device_id,
       x,
       y,
