@@ -1,4 +1,5 @@
-import { GAME_MAX_PLAYER } from '../../constants/env.js';
+import { GAME_FIRST_SESSION_ID, GAME_MAX_PLAYER } from '../../constants/env.js';
+import { removeGameSession } from '../../session/game.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
@@ -28,6 +29,11 @@ class Game {
     const user = this.getUser(userId);
     user.leaveGame();
     this.users = this.users.filter((user) => user.id !== userId);
+
+    // 유저 제거 후 게임에 남은 유저가 없다면 게임 세션 삭제
+    if (this.users.length <= 0 && this.id !== GAME_FIRST_SESSION_ID) {
+      removeGameSession(this.id);
+    }
   }
 
   // 게임 내의 모든 유저의 위치 정보
