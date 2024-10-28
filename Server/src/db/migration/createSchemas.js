@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // sql 파일 읽고 쿼리 실행
 const executeSqlFile = async (pool, filePath) => {
   const sql = fs.readFileSync(filePath, 'utf8');
-  const quereis = sql
+  const queries = sql
     .split(';') // 읽어온 sql 파일을 ; 단위로 나눔
     .map((query) => query.trim()) // 쿼리 양 끝의 공백 제거
     .filter((query) => query.length > 0); // 쿼리 길이가 0보다 큰 경우만 필터링
@@ -26,8 +26,10 @@ const createSchemas = async () => {
   try {
     // user_db.sql 파일 확인하고 USER_DB에 테이블 생성
     await executeSqlFile(pools.USER_DB, path.join(sqlDir, 'user_db.sql'));
+    // game_db.sql 파일 확인하고 GAME_DB에 테이블 생성
+    await executeSqlFile(pools.GAME_DB, path.join(sqlDir, 'game_db.sql'));
   } catch (err) {
-    console.error(`데이터베이스 테이블 생성 중 오류가 발생했습니다.: ${e}`);
+    console.error(`데이터베이스 테이블 생성 중 오류가 발생했습니다.: ${err}`);
   }
 };
 
