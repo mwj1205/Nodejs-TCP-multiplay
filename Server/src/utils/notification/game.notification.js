@@ -14,13 +14,13 @@ const makeNotification = (message, type) => {
 };
 
 // location packet 생성
-export const createLocationPacket = (users) => {
+export const createLocationPacket = (data) => {
   // 프로토 메세지 불러옴
   const protoMessage = getProtoMessages();
   const Location = protoMessage.gameNotification.LocationUpdate;
 
   // 전송할 location 정보 인코딩
-  const payload = { users };
+  const payload = { data };
   const message = Location.create(payload);
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.LOCATION);

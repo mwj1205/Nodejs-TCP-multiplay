@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float speed;
     public string deviceId;
     public RuntimeAnimatorController[] animCon;
+    public Vector2 initialPosition;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -36,6 +37,17 @@ public class Player : MonoBehaviour
         myText.GetComponent<MeshRenderer>().sortingOrder = 6;
         
         anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
+
+        if (initialPosition != Vector2.zero) {
+            transform.position = initialPosition;
+        }
+    }
+
+    public void SetInitialPosition(Vector2 position) {
+        initialPosition = position;
+        if (gameObject.activeSelf) {
+            transform.position = position;
+        }
     }
 
     // Update is called once per frame

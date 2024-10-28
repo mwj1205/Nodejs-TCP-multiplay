@@ -1,4 +1,6 @@
-export const onError = (socket) => (err) => {
+import { upsertGamePosition } from '../db/game/game.db.js';
+
+export const onError = (socket) => async (err) => {
   console.error('Socket error:', err);
 
   try {
@@ -12,6 +14,8 @@ export const onError = (socket) => (err) => {
         }
       }
     }
+
+    await upsertGamePosition(user.id, user.x, user.y);
 
     removeUser(socket);
   } catch (err) {

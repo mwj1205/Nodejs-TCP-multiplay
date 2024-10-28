@@ -254,9 +254,31 @@ public class NetworkManager : MonoBehaviour
 
         if (response.data != null && response.data.Length > 0) {
             if (response.handlerId == 0) {
+                ProcessInitialData(response.data);
                 GameManager.instance.GameStart();
             }
             ProcessResponseData(response.data);
+        }
+    }
+
+    [Serializable]
+    public class initialResponseData {
+        public string userId;
+        public string gameId;
+        public float x;
+        public float y;
+
+    }
+    void ProcessInitialData(byte[] data) {
+        try
+        {
+            string jsonString = Encoding.UTF8.GetString(data);
+            var initialData = JsonUtility.FromJson<initialResponseData>(jsonString);
+            Debug.Log($"initial data : {jsonString}");
+            GameManager.instance.player.SetInitialPosition(new Vector2(initialData.x, initialData.y));
+
+        } catch (Exception e) {
+            Debug.LogError($"Error processing initial data: {e.Message}");
         }
     }
 

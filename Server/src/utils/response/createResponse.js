@@ -2,7 +2,7 @@ import { PACKET_TYPE, PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../../constants/h
 import { getProtoMessages } from '../../init/loadProto.js';
 
 // response 생성
-export const CreateResponse = (handlerId, responseCode, data = null, userId) => {
+export const CreateResponse = (handlerId, responseCode, data = null) => {
   // proto type 가져오기
   const protoMessages = getProtoMessages();
   const Response = protoMessages.response.Response;

@@ -11,5 +11,6 @@ export const ErrorCodes = {
   INVALID_SEQUENCE: 10008,
   GAME_NOT_FOUND: 10009,
   GAME_SESSION_FULL: 10010,
+  DATABASE_ERROR: 10020,
   // 추가적인 에러 코드들
 };
