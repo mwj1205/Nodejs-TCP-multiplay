@@ -6,6 +6,8 @@ import { handlerError } from '../../utils/error/errorHandlers.js';
 import { CreateResponse } from '../../utils/response/createResponse.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { createUser, findUserByDeviceId, updateUserLogin } from '../../db/user/user.db.js';
+import { getUserCoordinate } from '../../db/game/game.db.js';
+import CustomError from '../../utils/error/customError.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
@@ -44,6 +46,20 @@ const initialHandler = async ({ socket, userId, payload }) => {
       }
     }
 
+    let userPosition;
+    try {
+      userPosition = await getUserCoordinate(deviceId);
+      if (!userPosition) {
+        userPosition = { x: 0, y: 0 };
+      }
+    } catch (err) {
+      throw new CustomError(
+        ErrorCodes.DATABASE_ERROR,
+        `데이터베이스 오류가 발생했습니다. ${err.message}`,
+      );
+    }
+    console.log('userPosition: ', userPosition);
+
     console.log(`enter game: ID ${gameSession.id}`);
     console.log(`Users: ${getAllUsersId()}`);
 
@@ -51,7 +67,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
     const initialResponse = CreateResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId: user.deviceId, gameId: gameSession.id },
+      { userId: user.deviceId, gameId: gameSession.id, x: userPosition.x, y: userPosition.y },
       deviceId,
     );
 

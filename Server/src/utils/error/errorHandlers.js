@@ -5,7 +5,6 @@ export const handlerError = (socket, error) => {
   // try-catch로 에러를 전달받았을 때 적절한 메세지를 클라이언트에 전송
   let responseCode;
   let message;
-  console.error(error);
 
   // 내가 지정한 CustomError인 경우
   if (error.code) {
