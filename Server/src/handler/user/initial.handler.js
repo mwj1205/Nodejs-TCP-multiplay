@@ -5,14 +5,23 @@ import { addUser, getAllUsersId } from '../../session/user.session.js';
 import { handlerError } from '../../utils/error/errorHandlers.js';
 import { CreateResponse } from '../../utils/response/createResponse.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import { createUser, findUserByDeviceId, updateUserLogin } from '../../db/user/user.db.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
     const { deviceId, playerId, latency } = payload;
     console.log('payload: ', payload);
 
+    // 유저 db 처리
+    let user = await findUserByDeviceId(deviceId);
+    if (!user) {
+      user = await createUser(deviceId);
+    } else {
+      await updateUserLogin(user.id);
+    }
+
     // 접속한 유저 세션 추가
-    const sessionUser = addUser(socket, userId);
+    const sessionUser = addUser(socket, user.deviceId);
     sessionUser.setLatency(latency);
     sessionUser.setPlayerId(playerId);
 
@@ -42,7 +51,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
     const initialResponse = CreateResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId, gameId: gameSession.id },
+      { userId: user.deviceId, gameId: gameSession.id },
       deviceId,
     );
 

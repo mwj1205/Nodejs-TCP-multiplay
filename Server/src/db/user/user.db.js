@@ -1,12 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import pools from '../database.js';
 import { SQL_QUERIES } from './user.queries.js';
+import { toCamelCase } from '../../utils/transformCase.js';
 
 // 작성한 query 실행
 export const findUserByDeviceId = async (deviceId) => {
   const [rows] = await pools.USER_DB.query(SQL_QUERIES.FIND_USER_BY_DEVICE_ID, [deviceId]);
   console.log('rows[0]: ', rows[0]);
-  return rows[0];
+  return toCamelCase(rows[0]);
 };
 
 export const createUser = async (deviceId) => {
