@@ -64,12 +64,12 @@ const initialHandler = async ({ socket, userId, payload }) => {
     console.log(`Users: ${getAllUsersId()}`);
 
     // response 생성, 전송
-    const initialResponse = CreateResponse(
-      HANDLER_IDS.INITIAL,
-      RESPONSE_SUCCESS_CODE,
-      { userId: user.deviceId, gameId: gameSession.id, x: userPosition.x, y: userPosition.y },
-      deviceId,
-    );
+    const initialResponse = CreateResponse(HANDLER_IDS.INITIAL, RESPONSE_SUCCESS_CODE, {
+      userId: user.deviceId,
+      gameId: gameSession.id,
+      x: userPosition.x,
+      y: userPosition.y,
+    });
 
     socket.write(initialResponse);
   } catch (err) {
