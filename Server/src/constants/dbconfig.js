@@ -10,7 +10,7 @@ import {
   DB2_PASSWORD,
   DB2_HOST,
   DB2_PORT,
-} from './env';
+} from './env.js';
 
 export const dbconfig = {
   GAME_DB: {
