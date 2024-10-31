@@ -54,6 +54,13 @@ class User {
     };
   }
 
+  initPosition(x, y) {
+    this.x = x;
+    this.lastX = x;
+    this.y = y;
+    this.lastY = y;
+  }
+
   updatePosition(x, y) {
     this.lastX = this.x;
     this.lastY = this.y;

@@ -58,8 +58,11 @@ const initialHandler = async ({ socket, userId, payload }) => {
         `데이터베이스 오류가 발생했습니다. ${err.message}`,
       );
     }
-    console.log('userPosition: ', userPosition);
 
+    // db에서 받아온 위치로 유저 위치 수정
+    sessionUser.initPosition(userPosition.x, userPosition.y);
+
+    console.log('userPosition: ', userPosition);
     console.log(`enter game: ID ${gameSession.id}`);
     console.log(`Users: ${getAllUsersId()}`);
 
