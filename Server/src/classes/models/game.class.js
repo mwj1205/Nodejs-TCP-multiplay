@@ -2,11 +2,13 @@ import { GAME_FIRST_SESSION_ID, GAME_MAX_PLAYER } from '../../constants/env.js';
 import { removeGameSession } from '../../session/game.session.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import LatencyManager from '../managers/latency.manager.js';
 
 class Game {
   constructor(id) {
     this.id = id;
     this.users = [];
+    this.latencyManager = new LatencyManager();
   }
 
   // 게임에 접속한 유저 추가
@@ -17,6 +19,8 @@ class Game {
 
     this.users.push(user);
     user.setGameId(this.id);
+    // 1초마다 user의 ping 메서드 호출
+    this.latencyManager.addPlayer(user.id, user.ping.bind(user), 1000);
   }
 
   // 게임에 접속한 유저 검색
@@ -29,9 +33,11 @@ class Game {
     const user = this.getUser(userId);
     user.leaveGame();
     this.users = this.users.filter((user) => user.id !== userId);
-
+    // 핑 interval 제거
+    this.latency.removeUser(userId);
     // 유저 제거 후 게임에 남은 유저가 없다면 게임 세션 삭제
     if (this.users.length <= 0 && this.id !== GAME_FIRST_SESSION_ID) {
+      this.latencyManager.clearAll();
       removeGameSession(this.id);
     }
   }
