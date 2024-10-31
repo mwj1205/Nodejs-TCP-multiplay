@@ -1,4 +1,7 @@
 import { upsertGamePosition } from '../db/game/game.db.js';
+import { getGameSession } from '../session/game.session.js';
+import { getUserBySocket, removeUser } from '../session/user.session.js';
+import { handlerError } from '../utils/error/errorHandlers.js';
 
 export const onError = (socket) => async (err) => {
   console.error('Socket error:', err);
@@ -9,8 +12,9 @@ export const onError = (socket) => async (err) => {
     if (user) {
       if (user.gameId) {
         const gameSession = getGameSession(user.gameId);
-        if (game) {
+        if (gameSession) {
           gameSession.removeUser(user.id);
+          console.log('gameSession: ', gameSession);
         }
       }
     }
