@@ -20,8 +20,19 @@ export const createLocationPacket = (data) => {
   const Location = protoMessage.gameNotification.LocationUpdate;
 
   // 전송할 location 정보 인코딩
-  const payload = { data };
+  const payload = { users: data };
   const message = Location.create(payload);
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+};
+
+export const createPingPacket = (timestamp) => {
+  const protoMessages = getProtoMessages();
+  const ping = protoMessages.common.Ping;
+
+  // 전송할 Ping 패킷 인코딩
+  const payload = { timestamp };
+  const message = ping.create(payload);
+  const pingPacket = ping.encode(message).finish();
+  return makeNotification(pingPacket, PACKET_TYPE.PING);
 };
