@@ -8,7 +8,7 @@ import { createLocationPacket } from '../../utils/notification/game.notification
 const locationUpdateHandler = async ({ socket, userId, payload }) => {
   try {
     const { x, y } = payload;
-    console.log('payload: ', payload);
+    // console.log('payload: ', payload);
     // userId로 유저 검색
     const user = getUserById(userId);
     if (!user) {

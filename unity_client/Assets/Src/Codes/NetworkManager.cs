@@ -160,7 +160,7 @@ public class NetworkManager : MonoBehaviour
         Array.Copy(header, 0, packet, 0, header.Length);
         Array.Copy(data, 0, packet, header.Length, data.Length);
 
-        await Task.Delay(GameManager.instance.latency);
+        //await Task.Delay(GameManager.instance.latency);
         
         // 패킷 전송
         stream.Write(packet, 0, packet.Length);
@@ -231,6 +231,9 @@ public class NetworkManager : MonoBehaviour
 
             switch (packetType)
             {
+                case Packets.PacketType.Ping:
+                    HandlePingPacket(packetData);
+                    break;
                 case Packets.PacketType.Normal:
                     HandleNormalPacket(packetData);
                     break;
@@ -239,6 +242,21 @@ public class NetworkManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    async void HandlePingPacket(byte[] data) {
+        // 헤더 생성
+        byte[] header = CreatePacketHeader(data.Length, Packets.PacketType.Ping);
+
+        // 패킷 생성
+        byte[] packet = new byte[header.Length + data.Length];
+        Array.Copy(header, 0, packet, 0, header.Length);
+        Array.Copy(data, 0, packet, header.Length, data.Length);
+
+        //await Task.Delay(GameManager.instance.latency);
+
+        // 패킷 전송
+        stream.Write(packet, 0, packet.Length);
     }
 
     void HandleNormalPacket(byte[] packetData) {
