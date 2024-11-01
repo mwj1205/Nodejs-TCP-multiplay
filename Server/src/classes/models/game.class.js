@@ -61,7 +61,6 @@ class Game {
         const { x, y } = user.calculatePosition(maxLatency);
         return { id: user.id, playerId: user.playerId, x, y };
       });
-    console.log('locationData: ', locationData);
     return locationData;
   }
 
