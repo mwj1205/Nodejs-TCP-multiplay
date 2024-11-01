@@ -68,6 +68,12 @@ public class LocationUpdatePayload {
 }
 
 [ProtoContract]
+public class Ping {
+    [ProtoMember(1)]
+    public long timestamp { get; set; }
+}
+
+[ProtoContract]
 public class LocationUpdate
 {
     [ProtoMember(1)]
