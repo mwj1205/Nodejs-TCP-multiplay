@@ -131,32 +131,6 @@ public class NetworkManager : MonoBehaviour
         return header;
     }
 
-    async void SendPong(long timestamp)
-    {
-        Ping payload = new Ping
-        {
-            timestamp = timestamp,
-        };
-
-        // timestamp를 담은 payload 직렬화
-        var payloadWriter = new ArrayBufferWriter<byte>();
-        Packets.Serialize(payloadWriter, payload);
-        byte[] data = payloadWriter.WrittenSpan.ToArray();
-
-        // 헤더 생성
-        byte[] header = CreatePacketHeader(data.Length, Packets.PacketType.Ping);
-
-        // 패킷 생성
-        byte[] packet = new byte[header.Length + data.Length];
-        Array.Copy(header, 0, packet, 0, header.Length);
-        Array.Copy(data, 0, packet, header.Length, data.Length);
-
-        await Task.Delay(GameManager.instance.latency);
-
-        // 패킷 전송
-        stream.Write(packet, 0, packet.Length);
-    }
-
     // 공통 패킷 생성 함수
     async void SendPacket<T>(T payload, uint handlerId)
     {
@@ -186,7 +160,7 @@ public class NetworkManager : MonoBehaviour
         Array.Copy(header, 0, packet, 0, header.Length);
         Array.Copy(data, 0, packet, header.Length, data.Length);
 
-        await Task.Delay(GameManager.instance.latency);
+        //await Task.Delay(GameManager.instance.latency);
         
         // 패킷 전송
         stream.Write(packet, 0, packet.Length);
@@ -270,14 +244,19 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    void HandlePingPacket(byte[] data) {
-        Debug.Log("ping");
-        Ping response = Packets.Deserialize<Ping>(data);
-        long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+    async void HandlePingPacket(byte[] data) {
+        // 헤더 생성
+        byte[] header = CreatePacketHeader(data.Length, Packets.PacketType.Ping);
 
-        GameManager.instance.latency = (int)(timestamp - response.timestamp);
+        // 패킷 생성
+        byte[] packet = new byte[header.Length + data.Length];
+        Array.Copy(header, 0, packet, 0, header.Length);
+        Array.Copy(data, 0, packet, header.Length, data.Length);
 
-        SendPong(timestamp);
+        //await Task.Delay(GameManager.instance.latency);
+
+        // 패킷 전송
+        stream.Write(packet, 0, packet.Length);
     }
 
     void HandleNormalPacket(byte[] packetData) {
