@@ -40,17 +40,21 @@ class User {
       };
     }
 
+    // 시간 차이 계산 (초 단위)
     const timeDiff = (Date.now() - this.lastUpdateTime + latency) / 1000;
 
+    // 이동 거리 계산
     const distance = this.speed * timeDiff;
 
-    // Math.sign : 부호만 가져옴
-    const directionX = this.x !== this.lastX ? Math.sign(this.x - this.lastX) : 0;
-    const directionY = this.y !== this.lastY ? Math.sign(this.y - this.lastY) : 0;
+    // 이동 방향의 각도 계산 (라디안)
+    const deltaX = this.x - this.lastX;
+    const deltaY = this.y - this.lastY;
+    const angle = Math.atan2(deltaY, deltaX);
 
+    // 삼각함수를 사용하여 x, y 좌표 계산
     return {
-      x: this.x + directionX * distance,
-      y: this.y + directionY * distance,
+      x: this.x + Math.cos(angle) * distance,
+      y: this.y + Math.sin(angle) * distance,
     };
   }
 

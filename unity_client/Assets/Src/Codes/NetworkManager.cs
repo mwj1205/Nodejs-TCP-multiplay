@@ -245,6 +245,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     async void HandlePingPacket(byte[] data) {
+        Debug.Log("Ping");
         // 헤더 생성
         byte[] header = CreatePacketHeader(data.Length, Packets.PacketType.Ping);
 
